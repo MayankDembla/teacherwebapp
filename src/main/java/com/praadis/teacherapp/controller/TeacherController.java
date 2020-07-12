@@ -23,13 +23,18 @@ public class TeacherController {
 
     private final TeacherServices tService ;
 
+    @GetMapping("/admin/welcome")
+    public String welcomeadmin(){
+       return "Welcome Admin to Teacher API" ;
+    }
+
     @GetMapping("/welcome")
     public String welcome(){
-       return "Welcome to Teacher API" ;
+        return "Welcome Student to Teacher API" ;
     }
 
     // By UUID
-    @GetMapping("uuid/{teacherId}")
+    @GetMapping("/uuid/{teacherId}")
     public ResponseEntity<Teacher> getTeacher(@NotNull @PathVariable("teacherId")UUID teacherId) {
        return new ResponseEntity<Teacher>(tService.getTeacherById(teacherId), HttpStatus.OK) ;
     }
