@@ -1,7 +1,9 @@
 package com.praadis.teacherapp.controller;
 
+import com.praadis.teacherapp.domain.Posts;
 import com.praadis.teacherapp.domain.Teacher;
 import com.praadis.teacherapp.model.TeacherDto;
+import com.praadis.teacherapp.service.PostServices;
 import com.praadis.teacherapp.service.TeacherServices;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
@@ -22,27 +24,35 @@ import java.util.UUID;
 public class TeacherController {
 
     private final TeacherServices tService ;
-
-    @GetMapping("/admin/welcome")
-    public String welcomeadmin(){
-       return "Welcome Admin to Teacher API" ;
-    }
+   private final PostServices postServices ;
 
     @GetMapping("/welcome")
     public String welcome(){
-        return "Welcome Student to Teacher API" ;
+       return "Welcome to Teacher API" ;
     }
 
     // By UUID
-    @GetMapping("/uuid/{teacherId}")
+    @GetMapping("uuid/{teacherId}")
     public ResponseEntity<Teacher> getTeacher(@NotNull @PathVariable("teacherId")UUID teacherId) {
        return new ResponseEntity<Teacher>(tService.getTeacherById(teacherId), HttpStatus.OK) ;
+    }
+
+    // By UUID
+    @GetMapping("posts/uuid/{postId}")
+    public ResponseEntity<Posts> getPosts(@NotNull @PathVariable("postId")UUID postId) {
+        return new ResponseEntity<Posts>(postServices.getPostById(postId), HttpStatus.OK) ;
     }
 
     // By User Id
     @GetMapping("/{teacherId}")
     public ResponseEntity<Teacher> getTeacher(@NotNull @PathVariable("teacherId")String teacherId) {
        return new ResponseEntity<Teacher>(tService.getTeacherByTeacherId(teacherId).get(0), HttpStatus.OK) ;
+    }
+
+    // By User Id
+    @GetMapping("post/{postId}")
+    public ResponseEntity<Posts> getPosts(@NotNull @PathVariable("postId")Long postId) {
+        return new ResponseEntity<Posts>(postServices.getPostsByPostsId(postId).get(0), HttpStatus.OK) ;
     }
 
     // Post the Teacher
